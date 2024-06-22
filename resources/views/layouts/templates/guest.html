@@ -1,0 +1,29 @@
+{% include "layouts/navs/navbars/guest.html" %}
+
+<style>
+    .bg-image {
+        background-image: url('https://img.freepik.com/foto-gratis/interior-gran-almacen-distribucion-estantes-apilados-paletas-productos-listos-mercado_342744-1481.jpg?w=1380&t=st=1718928814~exp=1718929414~hmac=d245fdfaf02a63639351602f3ae9a4156e3dd8b2580e7dbb8a1bab6d7ad4a48f'); /* Reemplaza con la URL de tu imagen */
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        position: relative;
+    }
+    .bg-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad aquí */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<div class="bg-image">
+    <div class="bg-overlay text-white text-center">
+        <div class="container d-flex flex-column justify-content-center align-items-center" style="height: 100vh; width:100vh;">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
