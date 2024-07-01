@@ -52,14 +52,14 @@
                 <div class="col-6 mt-5">
                     <div class="card-body rounded-4 text-start" style="height: 450px;">
                         <h5 class="card-title mb-4 mt-3 text-center" style="font-size: 180%;"><b>Inicio de sesión</b></h5>
-                        <form>
+                        <form id="loginCarrier">
                             <div class="mb-4">
                                 <label for="dni" class="form-label">N° DNI</label>
                                 <input type="text" class="form-control" id="dni" name="dni" placeholder="#######" style="border-color: #115571; background: rgba(217, 217, 217, 0.1); color:white">
                             </div>
                             <div class="mb-4">
                                 <label for="password-dni" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password-dni" name="password-dni" placeholder="Introducir contraseña" style="border-color: #115571; background: rgba(217, 217, 217, 0.1); color:white">
+                                <input type="password" class="form-control" id="password-dni" name="password" placeholder="Introducir contraseña" style="border-color: #115571; background: rgba(217, 217, 217, 0.1); color:white">
                             </div>
                             <button type="submit" class="btn custom-btn text-white w-100 d-block mt-5">Iniciar sesión</button>
                         </form>
@@ -83,15 +83,34 @@
         document.getElementById('login2').classList.toggle('active');
     }
     document.getElementById("loginBussines").addEventListener("submit", async (event) => {
-        event.preventDefault(); // Evita que el formulario se envíe automáticamente
+        event.preventDefault();
     
         const formData = new FormData(event.target);
         const email = formData.get("email");
         const password = formData.get("password");
     
-
         try {
             const response = await fetch("api/v1/auth/login", {
+                method: "POST",
+                body:formData
+            });
+
+            const data = await response.json();
+            
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
+        }
+    });
+
+    document.getElementById("loginCarrier").addEventListener("submit", async (event) => {
+        event.preventDefault();
+    
+        const formData = new FormData(event.target);
+        const dni = formData.get("dni");
+        const password = formData.get("password");
+    
+        try {
+            const response = await fetch("api/v1/auth/login-carrier", {
                 method: "POST",
                 body:formData
             });
