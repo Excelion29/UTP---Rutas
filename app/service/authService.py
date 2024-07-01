@@ -9,3 +9,12 @@ async def register(user, db):
     db.commit()
     
     return new_user
+
+async def register_cr(user, db):
+    hashed_password = hash_password(user.password)
+    new_user = UserDB(name=user.name, dni=user.dni, password=hashed_password)
+    
+    db.add(new_user)
+    db.commit()
+    
+    return new_user

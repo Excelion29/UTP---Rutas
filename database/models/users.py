@@ -8,7 +8,8 @@ class UserDB(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, name="user_id")
     name = Column(String(255),nullable=False, name="name", unique=True)
-    email = Column(EmailType,nullable=False, unique=True, name="email")
+    email = Column(EmailType,nullable=True, unique=True, name="email")
+    dni = Column(String(11),nullable=True, name="dni", unique=True)
     password = Column(Text,nullable=False, name="password")
     
     access_tokens = relationship("AccessTokenDB", backref="owner")

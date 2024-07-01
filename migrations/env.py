@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 from database.models.users import UserDB
-from database.models.oauth_acces_token import AccesTokenDB
+from database.models.oauth_acces_token import AccessTokenDB
 from database.models.oauth_refresh_tokens import RefreshTokenDB
 
 # this is the Alembic Config object, which provides
@@ -22,7 +22,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = UserDB.metadata
-target_metadata = AccesTokenDB.metadata
+target_metadata = AccessTokenDB.metadata
 target_metadata = RefreshTokenDB.metadata
 
 # other values from the config, defined by the needs of env.py,
