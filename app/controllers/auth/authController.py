@@ -88,7 +88,7 @@ async def logout(request,access_token,db):
     db.commit()
     request.session.clear()
     
-    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
+    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content={})
 
 async def get_user(access_token,db):
     access_token = decode_token(access_token,db)
