@@ -3,6 +3,7 @@ from app.response.APIResponse import APIResponse
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
+from datetime import datetime
 
 from database.models.users import UserDB
 
@@ -75,6 +76,19 @@ async def login_carrier(user, db):
         "dni": existing_user.dni,
         "expire": access_token.expires_at,
     }
+    
+async def logout(request,access_token,db):
+    db_token = decode_token(access_token, db)
+    
+    if not db_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    
+    db_token.revoked = True
+    db_token.revoked_at = datetime.utcnow()
+    db.commit()
+    request.session.clear()
+    
+    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
 
 async def get_user(access_token,db):
     access_token = decode_token(access_token,db)

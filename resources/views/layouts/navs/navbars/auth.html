@@ -1,28 +1,64 @@
 <style>
-    .navbar, .footer {
-        position: absolute;
+    .navbar {
+        position: sticky;
+        top: 0;
         width: 100%;
         z-index: 1;
     }
-    .navbar {
-        top: 0;
-    }
 </style>
-<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container-fluid">
-        <a class="navbar-brand text-white" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand text-dark" style="margin-left: 60px" href="#">
+            <img src="/public/img/4e700512634046f31adcc7994f7fda31.png"  alt="" width="30" height="24" class="d-inline-block align-text-top">
+            <b>LogiMeet Perú</b>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-white" aria-current="page" href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#"><i class="fas fa-sign-in-alt"></i> Logout</a>
-                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i><b> {{ user_data.name }}</b></a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a id="logoutLink" class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </li>          
             </ul>
         </div>
     </div>
 </nav>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const logoutLink = document.getElementById('logoutLink');
+        
+        logoutLink.addEventListener('click', async (event) => {
+            event.preventDefault();
+            try {
+                const accessToken = '{{ user_data.access_token }}';
+                const response = await fetch('api/v1/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    },
+                    // Puedes enviar cualquier dato adicional en el cuerpo si es necesario
+                    // body: JSON.stringify({}),
+                });
+
+                if (response.ok) {
+                    // Manejar el logout exitoso
+                    console.log('Logout exitoso');
+                    // Redirigir al usuario a la página de inicio u otra página relevante
+                    window.location.href = '/login';  // Ejemplo: redirigir al login
+                } else {
+                    // Manejar errores de logout
+                    console.error('Error al intentar cerrar sesión:', response.statusText);
+                    // Mostrar mensaje de error al usuario si es necesario
+                }
+            } catch (error) {
+                console.error('Error de red al intentar cerrar sesión:', error);
+                // Mostrar mensaje de error al usuario si hay problemas de red
+            }
+        });
+    });
+</script>

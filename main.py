@@ -1,6 +1,7 @@
 from fastapi import FastAPI,Request
 import uvicorn
 from routers.api.v1.auth import auth_router
+from routers.api.v1.transit import transit_router
 from routers.web import web_router
 import os
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,9 +33,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    errors = [{err["loc"][1]: err["msg"]} for err in exc.errors()]
+    errors = []
+    for err in exc.errors():
+        if len(err["loc"]) > 1:
+            errors.append({err["loc"][1]: err["msg"]})
+        else:
+            errors.append({"error": err["msg"]})
     return JSONResponse(
         status_code=400,
         content={"errors": errors},
@@ -42,6 +49,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     
 app.include_router(web_router)
 app.include_router(auth_router)
+app.include_router(transit_router)
 
 if __name__=="__main__":
     uvicorn.run("app.api:app", host=os.getenv('APP_HOST'), port=os.getenv('APP_PORT'), reload=True)

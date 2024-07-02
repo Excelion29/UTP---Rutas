@@ -97,6 +97,13 @@
 
             const data = await response.json();
             
+            if (response.ok) {
+                // Si la respuesta es exitosa, redirigir al dashboard
+                window.location.href = "/dashboard";
+            } else {
+                // Si hay un error, mostrar el mensaje de error
+                console.error("Error al iniciar sesión:", data.message || "Error desconocido");
+            }
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
         }
@@ -116,6 +123,14 @@
             });
 
             const data = await response.json();
+            
+            if (response.ok) {
+                // Si la respuesta es exitosa, redirigir al dashboard
+                window.location.href = "/dashboard";
+            } else {
+                // Si hay un error, mostrar el mensaje de error
+                console.error("Error al iniciar sesión:", data.message || "Error desconocido");
+            }
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
         }

@@ -1,4 +1,27 @@
 
 {% include "layouts/navs/navbars/auth.html" %}
-{% include "layouts/navs/sidebar/auth.html" %}
-{% block content %}{% endblock %}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0" style="background:#35495E">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2">
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li>
+                        <a href="/dashboard" class="text-secondary nav-link px-0 align-middle pt-4" style='font-size:26px'><i class="fas fa-home"></i><b> Inicio</b></a>
+                    </li>
+                    <li>
+                        <a href="/viajes" class="text-secondary nav-link px-0 align-middle pt-4" style='font-size:26px'><i class="fas fa-car"></i><b> Viajes</b></a>
+                    </li>
+                    <li>
+                        <a href="/calendario" class="text-secondary nav-link px-0 align-middle pt-4" style='font-size:26px'><i class="fas fa-calendar"></i><b> Calendario</b></a>
+                    </li>
+                    <li>
+                        <a href="/estadisticas" class="text-secondary nav-link px-0 align-middle pt-4" style='font-size:26px'><i class="fas fa-chart-bar"></i><b> Estadísticas</b></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col d-flex flex-column justify-content-start align-items-center bg-light" style="min-height: 94vh;width: 100%;">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>

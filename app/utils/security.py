@@ -66,7 +66,6 @@ def create_refresh_token(access_token, db):
         db.commit()
         
         access_token_data = create_access_token(access_token.user,db)
-        print(access_token_data)
         return access_token_data
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error")
@@ -74,6 +73,7 @@ def create_refresh_token(access_token, db):
 def decode_token(access_token: str,db: Session = Depends(get_db)):
     try:
         db_token = db.query(AccessTokenDB).filter_by(token=access_token).first()
+        
         if db_token:
             # Verificar si el token ha sido revocado
             if db_token.revoked:
@@ -81,13 +81,15 @@ def decode_token(access_token: str,db: Session = Depends(get_db)):
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="Token has been revoked",
                 )
+                
             # Verificar si el token ha expirado
-            if db_token.expires_at < datetime.utcnow():
+            if  db_token.expires_at < datetime.utcnow():
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="Token has expired",
                 )
             # Si el token es válido y no ha sido revocado ni ha expirado, devolver los detalles del token
+            
             return db_token
         else:
             raise HTTPException(

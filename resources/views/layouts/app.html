@@ -6,14 +6,40 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="/public/bootstrap-5.0.2-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
+    <style>
+        .nav-link.active {color: #fff !important; background-color: transparent !important;}
+    </style>
+    <script src="/public/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Obtener la URL actual
+            const currentPath = window.location.pathname;
+        
+            // Obtener todos los enlaces del sidebar
+            const links = document.querySelectorAll('#menu .nav-link');
+        
+            // Recorrer los enlaces y agregar la clase 'active' al enlace que coincida con la URL actual
+            links.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        </script>
     <!-- Navbar -->
-    {% extends "layouts/templates/guest.html" %}
+    {% if authenticated %}
+        {% extends "layouts/templates/auth.html" %}
+    {% else %}
+        {% extends "layouts/templates/guest.html" %}
+    {% endif %}
 
     <!-- Footer -->
     {% include "layouts/footer.html" %}
-    
-    <script src="/public/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

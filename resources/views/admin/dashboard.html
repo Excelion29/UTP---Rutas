@@ -1,5 +1,246 @@
 {% extends "layouts/app.html" %}
 
 {% block content %}
+<style>
+    #map {
+        height: 50vh;
+        width: 100%;
+        border: 5px solid #ced4da; /* Color del borde y grosor */
+        border-radius: 0.6rem; /* Redondea los bordes */
+    }
+    .flatpickr-calendar, .flatpickr-rContainer, .flatpickr-days, .dayContainer {
+        width: 100% !important;
+        max-width: 100% !important;
+    } 
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 d-flex flex-column mt-4" style="border-radius: 0.6rem;">
+            <div class="card shadow flex-grow-1 d-flex flex-column" style="border-radius: 0.6rem;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 m-0 p-0">
+                            <div class="card border-0 h-100 d-flex flex-column">
+                                <div class="card-header bg-white border-0">
+                                    <b>Mapa</b>
+                                </div>
+                                <div class="card-body">
+                                    <div id="map"></div>
+                                </div>
+                                <div class="card-footer bg-white border-0">
+                                    <label class="form-label"> <b>Origen</b> <span class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <input type="text" name="" placeholder="" value="" class="form-control border-3" required=""> 
+                                    </div>
+                                    <label class="form-label"> <b>Destino</b> <span class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <input type="text" name="" placeholder="" value="" class="form-control border-3" required=""> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex flex-column m-0 p-0  mt-4" style="border-radius: 0.6rem;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shadow flex-grow-1 d-flex flex-column" style="border-radius: 0.6rem;">
+                        <div class="card-body">
+                            <label class="form-label mt-3"> <b>Próximo viaje</b></label>
+                             <div class="card border-3">
+                                <div class="card-body text-center">
+                                    <b><i class="fas fa-location-arrow"></i> Ate, Lima</b>
+                                </div>
+                             </div>
+                            <label class="form-label mt-3"> <b>Fecha</b></label>
+                            <div class="card border-3">
+                                <div class="card-body text-center">
+                                    <b><i class="fas fa-calendar"></i>  30/06/2024</b>
+                                </div>
+                             </div>
+                            <label class="form-label mt-3"> <b>Motivo</b></label>
+                            <div class="card border-3">
+                                <div class="card-body text-center">
+                                    <b>Reunión</b>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-4">
+                    <div class="card shadow flex-grow-1 d-flex flex-column" style="border-radius: 0.6rem;">
+                        <div class="card-body">
+                            <label class="form-label mt-3"> <b>Próximo viaje</b></label>
+                            <div class="card border-3">
+                                <div id="calendar-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 d-flex flex-column mt-4" style="border-radius: 0.6rem;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shadow flex-grow-1 d-flex flex-column" style="border-radius: 0.6rem;">
+                        <div class="card-header bg-white border-0">
+                            <b>Notificaciones</b>
+                        </div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                  <div class="row">
+                                      <div class="col-2 text-end">
+                                          <i class="fas fa-check-circle text-success" style='font-size:26px'></i>
+                                      </div>
+                                      <div class="col-10 text-start">
+                                          <b> Se aprobó tu siguiente viaje a: ---</b>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-4">
+                    <div class="card shadow flex-grow-1 d-flex flex-column" style="border-radius: 0.6rem;">
+                        <div class="card-header bg-white border-0">
+                            <b>Mis Viajes</b>
+                        </div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                          <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">Nombre del viaje</h5>
+                                            <small>Fecha del viaje</small>
+                                          </div>
+                                          <p class="mb-1">Descripción del viaje</p>
+                                          <small>Otra información relevante</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Nombre del viaje</h5>
+                                                <small>Fecha del viaje</small>
+                                            </div>
+                                            <p class="mb-1">Descripción del viaje</p>
+                                            <small>Otra información relevante</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Nombre del viaje</h5>
+                                                <small>Fecha del viaje</small>
+                                            </div>
+                                            <p class="mb-1">Descripción del viaje</p>
+                                            <small>Otra información relevante</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Nombre del viaje</h5>
+                                                <small>Fecha del viaje</small>
+                                            </div>
+                                            <p class="mb-1">Descripción del viaje</p>
+                                            <small>Otra información relevante</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Nombre del viaje</h5>
+                                                <small>Fecha del viaje</small>
+                                            </div>
+                                            <p class="mb-1">Descripción del viaje</p>
+                                            <small>Otra información relevante</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('#calendar-container', {
+                inline: true,
+                dateFormat: 'Y-m-d', 
+                locale: {
+                    firstDayOfWeek: 1,
+                    weekdays: {
+                      shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                      longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
+                    }, 
+                    months: {
+                      shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
+                      longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    },
+                  },
+                  static: true,
+                  height: '500px',
+            });
+        });
+        const map = L.map('map').setView([-12.043492364009019, -77.04357480145998], 15);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        L.control.scale().addTo(map);
 
+        let startMarker, endMarker;
+
+        function onMapClick(e) {
+            if (!startMarker) {
+                startMarker = L.marker(e.latlng, { draggable: true }).addTo(map)
+                    .bindPopup("Punto de inicio")
+                    .openPopup();
+                startMarker.on('dragend', updateRoute);
+            } else if (!endMarker) {
+                endMarker = L.marker(e.latlng, { draggable: true }).addTo(map)
+                    .bindPopup("Punto de destino")
+                    .openPopup();
+                endMarker.on('dragend', updateRoute);
+                updateRoute(); // Update route once we have both markers
+            }
+        }
+
+        function updateRoute() {
+            if (startMarker && endMarker) {
+                const startLatLng = startMarker.getLatLng();
+                const endLatLng = endMarker.getLatLng();
+                getRoute(startLatLng.lat, startLatLng.lng, endLatLng.lat, endLatLng.lng);
+            }
+        }
+        async function getRoute(startLat, startLng, endLat, endLng) {
+            const url = `/api/v1/transit/get_routes?start_lat=${startLat}&start_lng=${startLng}&end_lat=${endLat}&end_lng=${endLng}`;
+
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log(data)
+            if (data.success) {
+                const routeCoordinates = []; // Almacena las coordenadas de la ruta
+                data.data.routes.forEach(route => {
+                    route.geometry.coordinates.forEach(coord => {
+                        routeCoordinates.push([coord[1], coord[0]]); // Leaflet usa [lat, lng]
+                    });
+
+                    // Agrega marcadores para las paradas
+                    route.stops.forEach(stop => {
+                        L.marker([stop.stop_lat, stop.stop_lon]).addTo(map)
+                            .bindPopup(stop.stop_name);
+                    });
+                });
+
+                // Dibuja la ruta en el mapa
+                L.polyline(routeCoordinates, { color: 'blue' }).addTo(map);
+            } else {
+                console.error(data.message);
+            }
+        }
+        map.on('click', onMapClick);
+    </script>
 {% endblock %}
