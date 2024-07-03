@@ -1,0 +1,16 @@
+.form-group .fas {
+    margin-right: 4px; /* Aumenta el espacio entre el icono y el input */
+}
+.map-min-content {
+    height: 50vh;
+    width: 100%;
+    border: 5px solid #ced4da; /* Color del borde y grosor */
+    border-radius: 0.6rem; /* Redondea los bordes */
+}
+
+.map-max-content {
+    height: 73vh;
+    width: 100%;
+    border: 5px solid #ced4da; /* Color del borde y grosor */
+    border-radius: 0.6rem; /* Redondea los bordes */
+}

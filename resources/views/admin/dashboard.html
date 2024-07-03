@@ -1,18 +1,10 @@
 {% extends "layouts/app.html" %}
 
 {% block content %}
-<style>
-    #map {
-        height: 50vh;
-        width: 100%;
-        border: 5px solid #ced4da; /* Color del borde y grosor */
-        border-radius: 0.6rem; /* Redondea los bordes */
-    }
-    .flatpickr-calendar, .flatpickr-rContainer, .flatpickr-days, .dayContainer {
-        width: 100% !important;
-        max-width: 100% !important;
-    } 
-</style>
+
+<link rel="stylesheet" href="/public/maclt/css/flatpickr.css">
+<link rel="stylesheet" href="/public/maclt/css/leaflet.css">
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 d-flex flex-column mt-4" style="border-radius: 0.6rem;">
@@ -25,16 +17,18 @@
                                     <b>Mapa</b>
                                 </div>
                                 <div class="card-body">
-                                    <div id="map"></div>
+                                    <div id="map" class="map-min-content"></div>
                                 </div>
                                 <div class="card-footer bg-white border-0">
                                     <label class="form-label"> <b>Origen</b> <span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <input type="text" name="" placeholder="" value="" class="form-control border-3" required=""> 
+                                    <div class="form-group d-flex align-items-center">
+                                        <i class="fas fa-map-marker-alt text-success h2"></i>
+                                        <input type="text" id="map-input-start" name="start" placeholder="Punto Inicial" class="form-control border-3" required>
                                     </div>
                                     <label class="form-label"> <b>Destino</b> <span class="text-danger">*</span></label>
-                                    <div class="form-group">
-                                        <input type="text" name="" placeholder="" value="" class="form-control border-3" required=""> 
+                                    <div class="form-group d-flex align-items-center">
+                                        <i class="fas fa-map-marker-alt text-danger h2"></i>
+                                        <input type="text" id="map-input-end" name="destiny" placeholder="Punto Final" class="form-control border-3" required>
                                     </div>
                                 </div>
                             </div>
@@ -163,84 +157,7 @@
         </div>
     </div>
 </div>
-   
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            flatpickr('#calendar-container', {
-                inline: true,
-                dateFormat: 'Y-m-d', 
-                locale: {
-                    firstDayOfWeek: 1,
-                    weekdays: {
-                      shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                      longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
-                    }, 
-                    months: {
-                      shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
-                      longhand: ['Enero', 'Febreo', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    },
-                  },
-                  static: true,
-                  height: '500px',
-            });
-        });
-        const map = L.map('map').setView([-12.043492364009019, -77.04357480145998], 15);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-        L.control.scale().addTo(map);
 
-        let startMarker, endMarker;
-
-        function onMapClick(e) {
-            if (!startMarker) {
-                startMarker = L.marker(e.latlng, { draggable: true }).addTo(map)
-                    .bindPopup("Punto de inicio")
-                    .openPopup();
-                startMarker.on('dragend', updateRoute);
-            } else if (!endMarker) {
-                endMarker = L.marker(e.latlng, { draggable: true }).addTo(map)
-                    .bindPopup("Punto de destino")
-                    .openPopup();
-                endMarker.on('dragend', updateRoute);
-                updateRoute(); // Update route once we have both markers
-            }
-        }
-
-        function updateRoute() {
-            if (startMarker && endMarker) {
-                const startLatLng = startMarker.getLatLng();
-                const endLatLng = endMarker.getLatLng();
-                getRoute(startLatLng.lat, startLatLng.lng, endLatLng.lat, endLatLng.lng);
-            }
-        }
-        async function getRoute(startLat, startLng, endLat, endLng) {
-            const url = `/api/v1/transit/get_routes?start_lat=${startLat}&start_lng=${startLng}&end_lat=${endLat}&end_lng=${endLng}`;
-
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log(data)
-            if (data.success) {
-                const routeCoordinates = []; // Almacena las coordenadas de la ruta
-                data.data.routes.forEach(route => {
-                    route.geometry.coordinates.forEach(coord => {
-                        routeCoordinates.push([coord[1], coord[0]]); // Leaflet usa [lat, lng]
-                    });
-
-                    // Agrega marcadores para las paradas
-                    route.stops.forEach(stop => {
-                        L.marker([stop.stop_lat, stop.stop_lon]).addTo(map)
-                            .bindPopup(stop.stop_name);
-                    });
-                });
-
-                // Dibuja la ruta en el mapa
-                L.polyline(routeCoordinates, { color: 'blue' }).addTo(map);
-            } else {
-                console.error(data.message);
-            }
-        }
-        map.on('click', onMapClick);
-    </script>
+<script src="/public/maclt/js/flatpickr.js"></script>
+<script src="/public/maclt/js/leaflet.js"></script>
 {% endblock %}

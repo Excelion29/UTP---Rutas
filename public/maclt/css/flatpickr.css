@@ -1,0 +1,4 @@
+.flatpickr-calendar, .flatpickr-rContainer, .flatpickr-days, .dayContainer {
+    width: 100% !important;
+    max-width: 100% !important;
+} 
