@@ -3,7 +3,7 @@ from app.response.APIResponse import APIResponse
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
-from datetime import datetime
+from datetime from datetime import datetime
 
 from database.models.users import UserDB
 

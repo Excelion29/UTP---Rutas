@@ -1,5 +1,5 @@
 from config.database import Base
-from sqlalchemy import Column,Integer,String,Text
+from sqlalchemy import Column, Integer, Text, String, Boolean, DateTime, func
 from sqlalchemy_utils import EmailType
 from sqlalchemy.orm import relationship
 
@@ -13,4 +13,7 @@ class UserDB(Base):
     password = Column(Text,nullable=False, name="password")
     
     access_tokens = relationship("AccessTokenDB", backref="owner")
-
+    
+    is_authorized = Column(Boolean, default=True, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now(), nullable=False)

@@ -4,7 +4,7 @@ from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.templating import Jinja2Templates
 import os
 from functools import wraps
-from datetime import datetime
+from datetime from datetime import datetime
 
 web_router = APIRouter(prefix="", tags=["root"])
 

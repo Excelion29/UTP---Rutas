@@ -7,6 +7,17 @@ from alembic import context
 from database.models.users import UserDB
 from database.models.oauth_acces_token import AccessTokenDB
 from database.models.oauth_refresh_tokens import RefreshTokenDB
+from database.models.transport_modes import TransportModesDB
+from database.models.vehicles import VechiclesDB
+from database.models.routes import RoutesDB
+from database.models.assigned_routes import AssignedRoutesDB
+from database.models.travel_summary import TravelSummaryDB
+from database.models.roles import RolesDB
+from database.models.users_roles import UserRolesDB
+from database.models.permissions import PermissionsDB
+from database.models.users_permissions import UserPermissionsDB
+from database.models.roles_permissions import RolesPermissionsDB
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -24,6 +35,16 @@ if config.config_file_name is not None:
 target_metadata = UserDB.metadata
 target_metadata = AccessTokenDB.metadata
 target_metadata = RefreshTokenDB.metadata
+target_metadata = TransportModesDB.metadata
+target_metadata = VechiclesDB.metadata
+target_metadata = RoutesDB.metadata
+target_metadata = AssignedRoutesDB.metadata
+target_metadata = TravelSummaryDB.metadata
+target_metadata = RolesDB.metadata
+target_metadata = UserRolesDB.metadata
+target_metadata = PermissionsDB.metadata
+target_metadata = UserPermissionsDB.metadata
+target_metadata = RolesPermissionsDB.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
